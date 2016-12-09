@@ -1,0 +1,48 @@
+#! /bin/bash
+##################################################################
+##	name: myShell
+##	description: uses regular expressions to read from a text file provided by
+##			the command line and scan the file for many different
+##			kinds of strings
+##
+##	author: Sean Trent
+##	version: 12.7.16
+##################################################################
+
+#Make sure the file exists
+[[ -e $1 ]] &&
+
+#Count the number of lines in the file
+echo Number of lines:
+cat $1 | wc -l 
+
+#Count the number of words in the file
+echo Number of words:
+cat $1 | wc -w
+
+#Find the most repetitive word
+echo Most repeated word:
+cat $1 | tr '[:space:]' '[\n*]' | sort | uniq -c | sort -nr | head -1
+
+#Find the least repetitive word
+echo Least repeated word:
+cat $1 | tr '[:space:]' '[\n*]' | sort | uniq -c | sort -n | head -1
+
+#Count words that start with "d" and ends with "d" (Not case sensitive)
+echo Number of words that start and end with \"d\":
+cat $1 | tr '[:space:]' '[\n*]' | sort | grep -i "\<d" | grep -i "d\>" | wc -w
+
+#Count words that start with "a" (Not case sensitive)
+echo Number of words that start with \"a\":
+cat $1 | tr '[:space:]' '[\n*]' | sort | grep -i "\<a" | wc -w
+
+#Count numeric words
+echo Number of numeric words:
+cat $1 | tr '[:space:]' '[\n*]' | sort | grep -o "\<[0-9]*\>" | wc -w
+
+#Count alphanumeric words
+echo Number of alphanumeric words:
+cat $1 | tr '[:space:]' '[\n*]' | sort | grep -i "[a-z]" | grep "[0-9]" | wc -w
+
+
+
